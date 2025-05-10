@@ -1,0 +1,139 @@
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BookService } from '../../Services/Book/book.service';
+import { SharedService } from '../../Services/Common/shared.service';
+import { CartService } from '../../Services/Cart/cart.service';
+import { WishlistService } from '../../Services/Wishlist/wishlist.service';
+
+@Component({
+  selector: 'app-bookdetails',
+  standalone: false,
+  templateUrl: './bookdetails.component.html',
+  styleUrl: './bookdetails.component.scss',
+})
+export class BookdetailsComponent implements OnInit {
+  rating: number = 0;
+  showLogoutText = false;
+  book: any;
+  isAddedToBag: boolean = false;
+  quantity: number = 1;
+
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private bookservice: BookService,
+    private route: ActivatedRoute,
+    private sharedservice: SharedService,
+    private cartservice: CartService,
+    private wishlistservice: WishlistService
+  ) {}
+
+  ngOnInit(): void {
+    this.getBookDetails();
+  }
+
+  getBookDetails() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.bookservice.getBookById(id).subscribe({
+      next: (response: any) => {
+        // Ensure book details (name, author, etc.)
+        this.book = response?.data || response;
+
+        // If book object exists, assign default image if not available
+        if (this.book) {
+          this.book.bookImage =
+            this.book.bookImage || `assets/images/book${(id % 9) + 1}.png`;
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching book by ID:', err);
+      },
+    });
+  }
+
+  addToBag() {
+    if (!this.book?.id) {
+      console.error('Book ID is undefined, cannot add to cart.');
+      return;
+    }
+
+    this.isAddedToBag = true;
+    this.quantity = 1;
+
+    this.cartservice.addToCart(this.book.id, this.quantity).subscribe({
+      next: (res) => {
+        this.snackBar.open('Book added to cart!', '', { duration: 2000 });
+        this.sharedservice.updateCartCountFromBackend();
+      },
+      error: (err) => {
+        console.error('Error adding to cart:', err);
+        this.snackBar.open('Failed to add to cart', '', { duration: 2000 });
+      },
+    });
+  }
+
+  addTowishlist() {
+    this.wishlistservice.addToWishlist(this.book.id).subscribe({
+      next: (res) => {
+        this.snackBar.open('Book added to wishlist!', '', { duration: 2000 });
+        this.router.navigate(['/dashboard/wishlist']);
+        console.log('added to wishlist');
+      },
+      error: (err) => {
+        console.error('Error adding to wishlist:', err);
+        this.snackBar.open('Failed to add to wishlist', '', { duration: 2000 });
+      },
+    });
+  }
+
+  increaseQuantity() {
+    this.quantity++;
+  }
+
+  decreaseQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  selectedImage: string = '';
+
+  setMainImage(imageUrl: string): void {
+    this.selectedImage = imageUrl;
+  }
+
+  //feedback part static
+  //rating = 0;
+  reviewText = '';
+  feedbackList = [
+    {
+      name: 'Ram Krishna',
+      rating: 3,
+      comment:
+        'Good product. Even though the translation could have been better...',
+    },
+    {
+      name: 'Ajay Kumar',
+      rating: 4,
+      comment: 'Chanakya’s neat and succinct writings are thought-provoking.',
+    },
+  ];
+
+  setRating(star: number): void {
+    this.rating = star;
+  }
+
+  submitReview(): void {
+    if (this.reviewText && this.rating) {
+      this.feedbackList.unshift({
+        name: 'Hari',
+        rating: this.rating,
+        comment: this.reviewText,
+      });
+      this.reviewText = '';
+      this.rating = 0;
+    }
+  }
+}

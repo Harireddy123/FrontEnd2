@@ -1,0 +1,31 @@
+<div class="order-page">
+  <div class="order-header">
+    <p>Home/wishlist</p>
+    <h2>My Wishlist</h2>
+  </div>
+
+  <div class="order-list">
+    <div class="order-card" *ngFor="let item of wishlistArray">
+      <div class="book-image">
+        <img src="/images/book1.png" alt="image" />
+      </div>
+      <div class="book-details">
+        <h3>{{ item.book?.bookName }}</h3>
+        <p class="author">by {{ item.book?.author }}</p>
+        <p class="price">
+          Rs. {{ item.book?.discountPrice || item.book?.price }}
+          <span class="original-price">Rs. {{ item.book?.price }}</span>
+        </p>
+      </div>
+      <div class="order-date">
+        <mat-icon
+          class="delete-icon"
+          aria-hidden="true"
+          (click)="removeFromWishlist(item)"
+        >
+          delete</mat-icon
+        >
+      </div>
+    </div>
+  </div>
+</div>

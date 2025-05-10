@@ -1,0 +1,95 @@
+<div class="v">Home / <span>Book</span></div>
+<div class="book-details-wrapper">
+  <div class="image-gallery">
+    <div class="thumbnails">
+      <img
+        src="images/book1.png"
+        alt="image 1"
+        (click)="setMainImage('images/book3.png')"
+      />
+      <img
+        src="images/book2.png"
+        alt="image 2"
+        (click)="setMainImage('images/book4.png')"
+      />
+    </div>
+  </div>
+
+  <div class="left-section">
+    <div class="main-image">
+      <img src="/images/book1.png" alt="Book Image" />
+    </div>
+
+    <div class="action-buttons">
+      <ng-container *ngIf="!isAddedToBag; else quantityBlock">
+        <button class="add-bag" (click)="addToBag()">ADD TO BAG</button>
+      </ng-container>
+
+      <ng-template #quantityBlock>
+        <div class="quantity-section">
+          <button (click)="decreaseQuantity()">−</button>
+          <span>{{ quantity }}</span>
+          <button (click)="increaseQuantity()">+</button>
+        </div>
+      </ng-template>
+
+      <button class="wishlist" (click)="addTowishlist()">WISHLIST</button>
+    </div>
+  </div>
+
+  <div class="right-section">
+    <h2 class="book-title">{{ book?.bookName }}</h2>
+    <p class="book-author">by {{ book?.author }}</p>
+
+    <div class="rating-price">
+      <span class="rating"> 4.5 <mat-icon>star</mat-icon> </span>
+      <div class="price">
+        <span class="current-price">RS {{ book?.discountPrice }}</span>
+        <span class="original-price">RS {{ book?.price }}</span>
+      </div>
+    </div>
+
+    <div class="book-description">
+      <h4>Book Detail</h4>
+      <p>{{ book?.description }}</p>
+    </div>
+
+    <div class="feedback-section">
+      <h4>Customer Feedback</h4>
+
+      <div class="rating-stars">
+        <mat-icon
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          (click)="setRating(star)"
+          [ngClass]="{ active: star <= rating }"
+        >
+          star
+        </mat-icon>
+      </div>
+
+      <textarea
+        placeholder="Write your review"
+        [(ngModel)]="reviewText"
+      ></textarea>
+      <button class="submit-review" (click)="submitReview()">Submit</button>
+
+      <div class="reviews-list">
+        <div class="review-item" *ngFor="let feedback of feedbackList">
+          <div class="avatar">{{ feedback.name[0] }}</div>
+          <div class="review-content">
+            <strong>{{ feedback.name }}</strong>
+            <div class="stars">
+              <mat-icon
+                *ngFor="let star of [1, 2, 3, 4, 5]"
+                [ngClass]="{ active: star <= feedback.rating }"
+              >
+                star
+              </mat-icon>
+            </div>
+            <p>{{ feedback.comment }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="page-wrapper">
+  <div class="main-content">
+    <!-- HEADER -->
+    <mat-toolbar color="primary" class="header-toolbar">
+      <span class="logo" routerLink="/dashboard/home"
+        ><mat-icon>menu_book</mat-icon> Bookstore</span
+      >
+      <div class="search-wrapper">
+        <div class="search-bar">
+          <mat-icon>search</mat-icon>
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            (input)="searchBooks()"
+            placeholder="Search"
+          />
+        </div>
+      </div>
+      <div class="header-buttons">
+        <div
+          class="profile-wrapper"
+          (mouseenter)="showLogoutText = true"
+          (mouseleave)="showLogoutText = false"
+        >
+          <button mat-button class="icon-button" (click)="OnLogout()">
+            <mat-icon>person</mat-icon> Profile
+          </button>
+          <div class="logout-text" *ngIf="showLogoutText">Logout</div>
+        </div>
+
+        <button
+          mat-button
+          class="icon-button white-badge"
+          [matBadge]="cartCount"
+          [matBadgeHidden]="cartCount === 0"
+          matBadgeOverlap="false"
+          routerLink="/dashboard/cart"
+        >
+          <mat-icon>shopping_cart</mat-icon>Cart
+        </button>
+      </div>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-content">
+        <span
+          >CopyRight © 2025,Bookstore Private Limited.All Rights Reserved</span
+        >
+      </div>
+    </footer>
+  </div>
+</div>

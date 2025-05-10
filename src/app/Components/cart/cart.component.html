@@ -1,0 +1,135 @@
+<div class="cart-container">
+  <div class="breadcrumb">
+    <a routerLink="/dashboard/home">Home</a> /
+    <span class="active">My cart</span>
+  </div>
+
+  <div class="cart-box">
+    <h2>My cart({{ totalQuantity }})</h2>
+
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <img src="images/book1.png" alt="Book" class="book-img" />
+      <div class="item-details">
+        <h3>{{ item.book?.bookName }}</h3>
+        <p>by {{ item.book?.author }}</p>
+        <div class="price">
+          <span class="current-price"
+            >Rs. {{ item.book?.discountPrice * item.quantity }}</span
+          >
+          <span class="original-price"
+            >Rs. {{ item.book?.price || item.book?.discountPrice }}</span
+          >
+        </div>
+        <div class="quantity-control">
+          <button (click)="decreaseQuantity(item)" class="cartbuttons">
+            -
+          </button>
+          <span id="qty">{{ item.quantity }}</span>
+          <button (click)="increaseQuantity(item)" class="cartbuttons">
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="place-order"
+      *ngIf="!addressPanelOpen"
+      (click)="openAddressPanel()"
+    >
+      PLACE ORDER
+    </button>
+  </div>
+
+  <mat-expansion-panel [(expanded)]="addressPanelOpen">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Customer Details </mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- <div class="add-new-address">
+        <span> Add New Address </span>
+      </div> -->
+    <!-- <div class="edit-icon">
+        <mat-icon>edit</mat-icon>
+      </div> -->
+
+    <form [formGroup]="CustomerForm" class="address-form">
+      <mat-form-field appearance="outline" style="width: 250px">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="fullname" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 250px">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput formControlName="mobile" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 670px">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" /> </mat-form-field
+      ><br />
+
+      <mat-form-field appearance="outline" style="width: 250px">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 250px">
+        <mat-label>State</mat-label>
+        <input matInput formControlName="state" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 250px">
+        <mat-label>ZipCode</mat-label>
+        <input matInput formControlName="type" />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="!summeryPanelOpen"
+        (click)="addCustomerDetails()"
+      >
+        Continue
+      </button>
+    </form>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [(expanded)]="summeryPanelOpen">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Order Summary </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="summary-cart-item" *ngFor="let item of cartItems">
+      <img
+        [src]="item.book?.bookImage || 'assets/images/book4.png'"
+        alt="Book"
+        class="summary-img"
+      />
+
+      <div class="summary-details">
+        <h4 class="summary-title">{{ item.book?.bookName }}</h4>
+        <p class="summary-author">by {{ item.book?.author }}</p>
+
+        <div class="summary-price">
+          <span class="summary-current-price"
+            >Rs. {{ item.book?.discountPrice }}</span
+          >
+          <span class="summary-original-price"
+            >Rs. {{ item.book?.price || item.book?.discountPrice }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-footer">
+      <button
+        mat-flat-button
+        color="primary"
+        class="checkout"
+        (click)="placeOrder()"
+      >
+        Checkout
+      </button>
+    </div>
+  </mat-expansion-panel>
+</div>
