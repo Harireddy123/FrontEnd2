@@ -42,7 +42,7 @@
     <button
       class="arrow-btn"
       [disabled]="currentPage === 0"
-      (click)="goToPreviousPage()"
+      (click)="PreviousPage()"
     >
       &lt;
     </button>
@@ -51,7 +51,7 @@
       class="page-btn"
       *ngFor="let page of getPageNumbers(); let i = index"
       [class.active]="currentPage === i"
-      (click)="goToPage(i)"
+      (click)="Page(i)"
     >
       {{ i + 1 }}
     </button>
@@ -59,7 +59,7 @@
     <button
       class="arrow-btn"
       [disabled]="currentPage >= maxPage - 1"
-      (click)="goToNextPage()"
+      (click)="NextPage()"
     >
       &gt;
     </button>
