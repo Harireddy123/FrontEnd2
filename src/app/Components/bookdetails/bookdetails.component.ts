@@ -53,7 +53,7 @@ export class BookdetailsComponent implements OnInit {
     });
   }
 
-  addToBag() {
+  cart() {
     if (!this.book?.id) {
       console.error('Book ID is undefined, cannot add to cart.');
       return;
@@ -74,7 +74,7 @@ export class BookdetailsComponent implements OnInit {
     });
   }
 
-  addTowishlist() {
+  wishlist() {
     this.wishlistservice.addToWishlist(this.book.id).subscribe({
       next: (res) => {
         this.snackBar.open('Book added to wishlist!', '', { duration: 2000 });
@@ -121,7 +121,7 @@ export class BookdetailsComponent implements OnInit {
     },
   ];
 
-  setRating(star: number): void {
+  Rating(star: number): void {
     this.rating = star;
   }
 
