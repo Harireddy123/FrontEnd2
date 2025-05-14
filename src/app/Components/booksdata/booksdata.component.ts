@@ -111,19 +111,19 @@ export class BooksdataComponent implements OnInit {
     this.maxPage = Math.ceil(this.totalBooks / this.pageSize);
   }
 
-  goToPage(pageIndex: number) {
+  Page(pageIndex: number) {
     this.currentPage = pageIndex;
     this.setPagedBooks();
   }
 
-  goToPreviousPage() {
+  PreviousPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
       this.setPagedBooks();
     }
   }
 
-  goToNextPage() {
+  NextPage() {
     if (this.currentPage < this.maxPage - 1) {
       this.currentPage++;
       this.setPagedBooks();
