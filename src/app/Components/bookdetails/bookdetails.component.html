@@ -22,7 +22,7 @@
 
     <div class="action-buttons">
       <ng-container *ngIf="!isAddedToBag; else quantityBlock">
-        <button class="add-bag" (click)="addToBag()">ADD TO BAG</button>
+        <button class="add-bag" (click)="cart()">ADD TO BAG</button>
       </ng-container>
 
       <ng-template #quantityBlock>
@@ -33,7 +33,7 @@
         </div>
       </ng-template>
 
-      <button class="wishlist" (click)="addTowishlist()">WISHLIST</button>
+      <button class="wishlist" (click)="wishlist()">WISHLIST</button>
     </div>
   </div>
 
@@ -60,7 +60,7 @@
       <div class="rating-stars">
         <mat-icon
           *ngFor="let star of [1, 2, 3, 4, 5]"
-          (click)="setRating(star)"
+          (click)="Rating(star)"
           [ngClass]="{ active: star <= rating }"
         >
           star
