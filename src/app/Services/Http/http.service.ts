@@ -18,10 +18,6 @@ export class HttpService {
     return this.httpClient.post(reqUrl, reqData, token ? httpOptions : {});
   }
 
-  // postServiceToken(url: string, reqData: any, token: boolean = true, httpOptions: any = {}) {
-  //   return this.httpClient.post(url, reqData, token ? httpOptions : {});
-  // }
-
   getService(url: string, token: boolean = true, httpOptions: any = {}) {
     return this.httpClient.get(url, token ? httpOptions : {});
   }
